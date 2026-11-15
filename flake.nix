@@ -30,6 +30,8 @@
             libadwaita
             mpv
             libepoxy
+            nodejs
+            ffmpeg
           ];
 
           shellHook = ''

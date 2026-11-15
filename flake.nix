@@ -16,7 +16,16 @@
         "aarch64-linux"
       ];
 
+      flake.overlays.default = final: _prev: {
+        losange = final.callPackage ./nix/package.nix { };
+      };
+
       perSystem = { pkgs, ... }: {
+        packages = rec {
+          losange = pkgs.callPackage ./nix/package.nix { };
+          default = losange;
+        };
+
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             cargo

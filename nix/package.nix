@@ -3,6 +3,7 @@
   rustPlatform,
   pkg-config,
   wrapGAppsHook4,
+  makeShellWrapper,
   glib,
   gtk4,
   libadwaita,
@@ -38,6 +39,7 @@ rustPlatform.buildRustPackage {
     pkg-config
     wrapGAppsHook4
     glib # glib-compile-schemas
+    makeShellWrapper
   ];
 
   buildInputs = [
@@ -78,6 +80,11 @@ rustPlatform.buildRustPackage {
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ libepoxy ]}
       --run 'if [ -e /dev/nvidia0 ]; then export GSK_RENDERER=opengl; fi'
     )
+  '';
+
+  dontWrapGApps = true;
+  postFixup = ''
+    wrapProgram $out/bin/losange "''${gappsWrapperArgs[@]}"
   '';
 
   meta = {
